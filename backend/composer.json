@@ -1,0 +1,14 @@
+{
+    "name": "itxryx/blog",
+    "autoload": {
+        "psr-4": {
+            "Itxryx\\Blog\\": "src/"
+        }
+    },
+    "require": {},
+    "config": {
+        "platform": {
+            "php": "8.4.5"
+        }
+    }
+}
