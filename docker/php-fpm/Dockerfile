@@ -12,3 +12,7 @@ RUN set -eux \
     && rm -rf /tmp/*
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
+
+EXPOSE 9000
+
+CMD ["php-fpm"]
