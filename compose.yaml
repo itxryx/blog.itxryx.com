@@ -1,0 +1,14 @@
+services:
+  php-fpm:
+    build:
+      context: docker/php-fpm
+      dockerfile: Dockerfile
+    container_name: blog-php
+    working_dir: "/blog.itxryx.com/public_docroot"
+    volumes:
+      - ./:/blog.itxryx.com
+      - ./docker/php-fpm/php.ini:/usr/local/etc/php/php.ini
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    tty: true
