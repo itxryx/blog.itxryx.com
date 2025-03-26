@@ -1,4 +1,19 @@
 services:
+  mysql:
+    build:
+      context: docker/mysql
+      dockerfile: Dockerfile
+    container_name: blog-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: dev
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    command: --default-authentication-plugin=mysql_native_password
   nginx:
     build:
       context: docker/nginx
@@ -19,6 +34,8 @@ services:
       dockerfile: Dockerfile
     container_name: blog-php
     working_dir: "/blog.itxryx.com/public_docroot"
+    environment:
+      DB_MYSQL_DSN: "mysql:host=mysql;port=3306;dbname=dev;charset=utf8mb4"
     volumes:
       - ./:/blog.itxryx.com
       - ./docker/php-fpm/php.ini:/usr/local/etc/php/php.ini

@@ -1,3 +1,4 @@
 /backend/.env
 
 /backend/vendor/
+/docker/mysql/data
