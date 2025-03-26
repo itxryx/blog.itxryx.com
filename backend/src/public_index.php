@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use Itxryx\Blog\Utility\Logger;
 use Dotenv\Dotenv;
 
 try {
@@ -12,7 +13,12 @@ try {
         $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
         $dotenv->load();
     } catch (Exception $e) {
+        echo "ERROR: " . $e->getMessage();
     }
+
+    // setup logger
+    $logger = Logger::create();
+    $logger->debug("=== request start ===");
 
     // connect to MySQL
     try {
@@ -27,6 +33,8 @@ try {
 
         $pdo = new PDO($dsn, $username, $password, $options);
         echo "MySQL connected successfully.";
+
+        $logger->debug("=== request finish ===");
     } catch (PDOException $e) {
         echo "Connection failed: " . $e->getMessage();
     }
