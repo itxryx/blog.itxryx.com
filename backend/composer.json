@@ -2,10 +2,12 @@
     "name": "itxryx/blog",
     "autoload": {
         "psr-4": {
-            "Itxryx\\Blog\\": "src/"
+            "Itxryx\\Blog\\": "src/Blog"
         }
     },
-    "require": {},
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    },
     "config": {
         "platform": {
             "php": "8.4.5"
