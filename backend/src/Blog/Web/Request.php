@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Itxryx\Blog\Web;
 
-use Itxryx\Blog\Web\Action\Public\PublicTopAction;
-
 class Request
 {
     public string $method;
@@ -16,8 +14,12 @@ class Request
     public array $request;
     public array $session;
 
-    public string $handlerClassName = "";
-    public bool $isSolvedRouting = false;
+    // Dispatcher::NOT_FOUND = 0
+    // Dispatcher::FOUND = 1
+    // Dispatcher::METHOD_NOT_ALLOWED = 2
+    public int $routeResolveStatus = 0;
+    public ?string $handlerClassName = "";
+    public ?array $pathParams = [];
 
     public function __construct(
         array $server = [],
@@ -37,9 +39,12 @@ class Request
         $this->request = $request;
         $this->session = $session;
 
-        // ルーティングで解決
-        $this->handlerClassName = PublicTopAction::class;
-        $this->isSolvedRouting = true;
+        [
+            $this->routeResolveStatus,
+            $this->handlerClassName,
+            $this->pathParams
+        ] = Route::resolve($this->method, $this->uri);
+
     }
 
     public function getMethod(): string
@@ -65,12 +70,12 @@ class Request
     public function isOk(): bool
     {
         // ルーティングが解決しているか
-        return $this->isSolvedRouting;
+        return $this->routeResolveStatus === 1;
     }
 
     public function isNotFound(): bool
     {
         // ルーティングが解決していないか
-        return !$this->isSolvedRouting;
+        return $this->routeResolveStatus === 0;
     }
 }

@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Itxryx\Blog\Web\Action\Public;
+namespace Itxryx\Blog\Web\Admin\Action;
 
 use Itxryx\Blog\Web\Request;
-use Itxryx\Blog\Web\Response;
+use Itxryx\Blog\Web\Response\Response;
 
-class PublicTopAction
+class EditArticleAction
 {
     static function run(Request $req): Response
     {

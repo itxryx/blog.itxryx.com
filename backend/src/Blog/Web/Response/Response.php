@@ -1,7 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Itxryx\Blog\Web;
+namespace Itxryx\Blog\Web\Response;
+
+use Itxryx\Blog\Web\Request;
 
 class Response
 {
