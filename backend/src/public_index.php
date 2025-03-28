@@ -1,10 +1,20 @@
 <?php
 declare(strict_types=1);
 
+use Itxryx\Blog\Web\Dispatch;
+use Itxryx\Blog\Web\Request;
 use Itxryx\Blog\Utility\Logger;
 use Dotenv\Dotenv;
 
 define("START_MICRO_SEC", microtime(true));
+
+ini_set("date.timezone", "Asia/Tokyo"); // タイムゾーンをTokyo（JST）に設定
+
+ini_set("display_errors", "0"); // エラーを画面に出力しない
+ini_set("display_startup_errors", "0"); // 起動で発生したエラーを画面に出力しない
+ini_set("html_errors", "0"); // エラーメッセージにHTMLタグを含まない（プレーンテキスト）
+
+error_reporting(E_ALL); // すべてのPHPエラーを拾う
 
 try {
     require(__DIR__ . "/../vendor/autoload.php");
@@ -15,36 +25,35 @@ try {
         $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
         $dotenv->load();
     } catch (Exception $e) {
-        echo "ERROR: " . $e->getMessage();
+        Logger::error(__FILE__ . ":" . __LINE__ . " Cannot load .env file");
     }
 
-    // setup logger
-    $logger = Logger::create();
-    $logger->debug("=== request start ===");
+    ini_set("error_log", $_ENV["ERROR_LOG_FILE"]); // エラーログの出力先を変更
 
-    // connect to MySQL
-    try {
-        $dsn = $_ENV["DB_MYSQL_DSN"];
-        $username = $_ENV["DB_MYSQL_USERNAME"];
-        $password = $_ENV["DB_MYSQL_PASSWORD"];
-        $options = [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::ATTR_EMULATE_PREPARES => false,
-        ];
+    Logger::debug("=== Request start ===");
 
-        $pdo = new PDO($dsn, $username, $password, $options);
-        echo "MySQL connected successfully.";
-    } catch (PDOException $e) {
-        echo "Connection failed: " . $e->getMessage();
-    }
+    session_start();
 
-    $memory = memory_get_peak_usage(false);
-    $consume_ms = (microtime(true) - START_MICRO_SEC) * 1000;
-    $logger->debug("=== request finish ===", [
-        "consuming_time" => sprintf('%.2f', $consume_ms) . " ms",
-        "memory" => sprintf('%.2f',$memory / 1024 / 1024)  . " MB"
-    ]);
-} catch (Exception $e) {
-    echo "ERROR: " . $e->getMessage();
+    $req = new Request(
+        $_SERVER,
+        $_GET,
+        $_POST,
+        $_COOKIE,
+        $_FILES,
+        $_REQUEST,
+        $_SESSION
+    );
+    $res = Dispatch::getResponse($req);
+
+    $res->writeHeader();
+    $res->writeBody();
+
+    return;
+} catch (Throwable $e) {
+    // 異常終了
+    $error_class_name = get_class($e);
+    error_log("Uncaught Exception {$error_class_name}: {$e->getMessage()} in {$e->getFile()}:{$e->getLine()}\n{$e->getTraceAsString()}");
+
+    echo "Internal Server Error";
+    return;
 }

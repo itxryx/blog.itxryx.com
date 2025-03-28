@@ -12,7 +12,19 @@ use Psr\Log\LoggerInterface;
 
 class Logger
 {
-    public static function create(): LoggerInterface {
+    public static function debug(string $message, array $context = []): void
+    {
+        $logger = self::create();
+        $logger->debug($message, $context);
+    }
+
+    public static function error(string $message, array $context = []): void
+    {
+        $logger = self::create();
+        $logger->error($message, $context);
+    }
+
+    private static function create(): LoggerInterface {
         $logger = new MonologLogger('blog');
 
         $formatter = new LineFormatter(
