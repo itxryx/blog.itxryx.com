@@ -11,7 +11,7 @@ class ShowArticleList
     static function run(Request $req): Response
     {
         $res = new Response($req);
-        $res->render('public/web/page/show_posts_list.twig');
+        $res->render('public/web/page/show_article_list.twig');
         return $res;
     }
 }

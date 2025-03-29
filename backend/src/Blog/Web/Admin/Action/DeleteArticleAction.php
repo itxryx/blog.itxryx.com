@@ -11,7 +11,7 @@ class DeleteArticleAction
     static function run(Request $req): Response
     {
         $res = new Response($req);
-        $res->render('admin/web/page/delete_post.twig');
+        $res->render('admin/web/page/delete_article.twig');
         return $res;
     }
 }

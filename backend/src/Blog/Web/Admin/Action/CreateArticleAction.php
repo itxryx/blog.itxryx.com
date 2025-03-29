@@ -11,7 +11,7 @@ class CreateArticleAction
     static function run(Request $req): Response
     {
         $res = new Response($req);
-        $res->render('admin/web/page/create_post.twig');
+        $res->render('admin/web/page/create_article.twig');
         return $res;
     }
 }
