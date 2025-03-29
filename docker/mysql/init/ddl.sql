@@ -9,6 +9,7 @@ create table if not exists author (
                                       login_id        varchar(255) not null comment 'ログインID',
                                       email           varchar(255) not null comment 'メールアドレス',
                                       hashed_password varchar(255) not null comment 'ハッシュ化済みパスワード',
+                                      profile_image   varchar(255) null comment 'プロフィール画像',
                                       constraint uq_author_email unique (email),
                                       constraint uq_author_login_id unique (login_id)
 ) comment '投稿者テーブル'
@@ -27,6 +28,7 @@ create table if not exists post (
                                     created_at     bigint          not null comment '作成日時（UNIXTIME）',
                                     updated_at     bigint          not null comment '更新日時（UNIXTIME）',
                                     published_at   bigint          null comment '公開日時（UNIXTIME）',
+                                    post_id        varchar(255)    not null comment '投稿ID（slug）',
                                     author_id      bigint unsigned not null comment '投稿者ID',
                                     title          varchar(255)    not null comment '投稿タイトル',
                                     body           text            not null comment '投稿本文',
