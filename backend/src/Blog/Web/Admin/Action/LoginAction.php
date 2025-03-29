@@ -11,7 +11,7 @@ class LoginAction
     static function run(Request $req): Response
     {
         $res = new Response($req);
-        $res->render("hi!");
+        $res->render('admin/web/page/login.twig');
         return $res;
     }
 }

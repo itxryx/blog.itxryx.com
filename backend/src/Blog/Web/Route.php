@@ -15,7 +15,7 @@ class Route
     static public array $public_routes = [
         ['GET', '/', PublicAction\TopAction::class],
         ['GET', '/posts', PublicAction\ShowArticleList::class],
-        ['GET', '/posts/{article_id:.+}', PublicAction\ShowArticle::class],
+        ['GET', '/post/{post_id:.+}', PublicAction\ShowArticle::class],
     ];
 
     // Admin画面のルーティング
@@ -23,9 +23,9 @@ class Route
         ['GET', '/admin', AdminAction\TopAction::class],
         ['POST', '/login', AdminAction\LoginAction::class],
         ['POST', '/logout', AdminAction\LogoutAction::class],
-        ['POST', '/create', AdminAction\CreateArticleAction::class],
-        ['POST', '/edit/{article_id:.+}', AdminAction\EditArticleAction::class],
-        ['POST', '/delete/{article_id:.+}', AdminAction\DeleteArticleAction::class],
+        ['POST', '/post/create', AdminAction\CreateArticleAction::class],
+        ['POST', '/post/edit/{post_id:.+}', AdminAction\EditArticleAction::class],
+        ['POST', '/post/delete/{post_id:.+}', AdminAction\DeleteArticleAction::class],
     ];
 
     /**

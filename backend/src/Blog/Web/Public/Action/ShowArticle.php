@@ -11,7 +11,7 @@ class ShowArticle
     static function run(Request $req): Response
     {
         $res = new Response($req);
-        $res->render("hi!");
+        $res->render('public/web/page/show_post.twig');
         return $res;
     }
 }

@@ -11,7 +11,7 @@ class EditArticleAction
     static function run(Request $req): Response
     {
         $res = new Response($req);
-        $res->render("hi!");
+        $res->render('admin/web/page/edit_post.twig');
         return $res;
     }
 }

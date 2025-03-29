@@ -3,6 +3,12 @@
 <head>
 </head>
 <body>
-    <p>hi!</p>
+<div>
+    {% include "admin/web/component/organism/header.twig" %}
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    {% include "admin/web//component/organism/footer.twig" %}
+</div>
 </body>
 </html>

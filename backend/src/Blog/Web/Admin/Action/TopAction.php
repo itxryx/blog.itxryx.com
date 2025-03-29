@@ -11,7 +11,7 @@ class TopAction
     static function run(Request $req): Response
     {
         $res = new Response($req);
-        $res->render("hi!");
+        $res->render('admin/web/page/top.twig');
         return $res;
     }
 }
