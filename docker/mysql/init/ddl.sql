@@ -2,7 +2,7 @@ SET NAMES utf8mb4;
 SET CHARACTER SET utf8mb4;
 
 create table if not exists author (
-                                      id                      bigint unsigned auto_increment comment '投稿者ID' primary key,
+                                      id                      bigint unsigned auto_increment not null comment '投稿者ID' primary key,
                                       created_at              bigint       not null comment '作成日時（UNIXTIME）',
                                       updated_at              bigint       not null comment '更新日時（UNIXTIME）',
                                       registered_at           bigint       not null comment '登録日時（UNIXTIME）',
@@ -17,18 +17,18 @@ create table if not exists author (
     collate = utf8mb4_unicode_ci;
 
 create table if not exists article_status (
-                                           id     bigint unsigned auto_increment comment 'ステータスID' primary key,
+                                           id     bigint unsigned auto_increment not null comment 'ステータスID' primary key,
                                            status varchar(100) not null comment 'ステータス名'
 ) comment '投稿ステータステーブル'
     default charset = utf8mb4
     collate = utf8mb4_unicode_ci;
 
 create table if not exists article (
-                                    id             bigint unsigned auto_increment comment '投稿ID' primary key,
+                                    id             bigint unsigned auto_increment not null comment '投稿ID' primary key,
                                     created_at     bigint          not null comment '作成日時（UNIXTIME）',
                                     updated_at     bigint          not null comment '更新日時（UNIXTIME）',
                                     published_at   bigint          null comment '公開日時（UNIXTIME）',
-                                    article_id     varchar(255)    not null comment '投稿ID（slug）',
+                                    slug           varchar(255)    not null comment '投稿ID（slug）',
                                     author_id      bigint unsigned not null comment '投稿者ID',
                                     title          varchar(255)    not null comment '投稿タイトル',
                                     body           text            not null comment '投稿本文',
@@ -43,7 +43,7 @@ create index idx_article_author_id on article (author_id);
 create index idx_article_article_status_id on article (article_status_id);
 
 create table if not exists article_media (
-                                          id              bigint unsigned auto_increment comment 'メディアID' primary key,
+                                          id              bigint unsigned auto_increment not null comment 'メディアID' primary key,
                                           created_at      bigint          not null comment '作成日時（UNIXTIME）',
                                           updated_at      bigint          not null comment '更新日時（UNIXTIME）',
                                           article_id      bigint unsigned not null comment '投稿ID',
@@ -60,7 +60,7 @@ create table if not exists article_media (
 create index idx_article_media_article_id on article_media (article_id);
 
 create table if not exists article_tag (
-                                        id         bigint unsigned auto_increment comment 'タグID' primary key,
+                                        id         bigint unsigned auto_increment not null comment 'タグID' primary key,
                                         created_at bigint       not null comment '作成日時（UNIXTIME）',
                                         updated_at bigint       not null comment '更新日時（UNIXTIME）',
                                         name       varchar(100) not null comment 'タグ名',
@@ -70,7 +70,7 @@ create table if not exists article_tag (
     collate = utf8mb4_unicode_ci;
 
 create table if not exists article_tagging (
-                                            id         bigint unsigned auto_increment comment '投稿タグ付けID' primary key,
+                                            id         bigint unsigned auto_increment not null comment '投稿タグ付けID' primary key,
                                             created_at bigint          not null comment '作成日時（UNIXTIME）',
                                             updated_at bigint          not null comment '更新日時（UNIXTIME）',
                                             article_id bigint unsigned not null comment '投稿ID（article.id）',
