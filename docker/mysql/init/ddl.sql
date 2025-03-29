@@ -2,14 +2,14 @@ SET NAMES utf8mb4;
 SET CHARACTER SET utf8mb4;
 
 create table if not exists author (
-                                      id              bigint unsigned auto_increment comment '投稿者ID' primary key,
-                                      created_at      bigint       not null comment '作成日時（UNIXTIME）',
-                                      updated_at      bigint       not null comment '更新日時（UNIXTIME）',
-                                      registered_at   bigint       not null comment '登録日時（UNIXTIME）',
-                                      login_id        varchar(255) not null comment 'ログインID',
-                                      email           varchar(255) not null comment 'メールアドレス',
-                                      hashed_password varchar(255) not null comment 'ハッシュ化済みパスワード',
-                                      profile_image   varchar(255) null comment 'プロフィール画像',
+                                      id                      bigint unsigned auto_increment comment '投稿者ID' primary key,
+                                      created_at              bigint       not null comment '作成日時（UNIXTIME）',
+                                      updated_at              bigint       not null comment '更新日時（UNIXTIME）',
+                                      registered_at           bigint       not null comment '登録日時（UNIXTIME）',
+                                      login_id                varchar(255) not null comment 'ログインID',
+                                      email                   varchar(255) not null comment 'メールアドレス',
+                                      hashed_password         varchar(255) not null comment 'ハッシュ化済みパスワード',
+                                      profile_image_file_path varchar(255) null comment 'プロフィール画像ファイルパス',
                                       constraint uq_author_email unique (email),
                                       constraint uq_author_login_id unique (login_id)
 ) comment '投稿者テーブル'
