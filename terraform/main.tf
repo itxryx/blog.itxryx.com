@@ -16,6 +16,34 @@ resource "aws_s3_bucket_public_access_block" "blog" {
 }
 
 # =============================================================================
+# CloudFront Function
+# =============================================================================
+
+resource "aws_cloudfront_function" "index_rewrite" {
+  name    = "${var.project_name}-index-rewrite"
+  runtime = "cloudfront-js-2.0"
+  comment = "Rewrite requests to append index.html for directory paths"
+  publish = true
+  code    = <<-EOT
+    function handler(event) {
+      var request = event.request;
+      var uri = request.uri;
+
+      // URIが/で終わる場合、index.htmlを追加
+      if (uri.endsWith('/')) {
+        request.uri += 'index.html';
+      }
+      // URIに拡張子がない場合（ファイルではない）、/index.htmlを追加
+      else if (!uri.includes('.')) {
+        request.uri += '/index.html';
+      }
+
+      return request;
+    }
+  EOT
+}
+
+# =============================================================================
 # CloudFront Origin Access Control (OAC)
 # =============================================================================
 
@@ -55,19 +83,12 @@ resource "aws_cloudfront_distribution" "blog" {
     cache_policy_id = "658327ea-f89d-4fab-a63d-7e88639e58f6"
     # AWS Managed Origin Request Policy: CORS-S3Origin
     origin_request_policy_id = "88a5eaf4-2fd4-4709-b370-b4c650ea3fcf"
-  }
 
-  # SPA対応: 403/404エラー時にindex.htmlを返す
-  custom_error_response {
-    error_code         = 403
-    response_code      = 200
-    response_page_path = "/index.html"
-  }
-
-  custom_error_response {
-    error_code         = 404
-    response_code      = 200
-    response_page_path = "/index.html"
+    # CloudFront Function
+    function_association {
+      event_type   = "viewer-request"
+      function_arn = aws_cloudfront_function.index_rewrite.arn
+    }
   }
 
   restrictions {
