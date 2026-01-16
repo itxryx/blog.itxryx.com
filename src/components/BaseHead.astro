@@ -44,14 +44,18 @@ const gaTrackingId = import.meta.env.GA_TRACKING_ID;
 />
 <meta name="generator" content={Astro.generator} />
 
-<!-- Font preloads -->
-<link rel="preload" href="/fonts/atkinson-regular.woff" as="font" type="font/woff" crossorigin />
-<link rel="preload" href="/fonts/atkinson-bold.woff" as="font" type="font/woff" crossorigin />
-
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Murecho:wght@400;700&display=swap" rel="stylesheet" />
+<link
+	href="https://fonts.googleapis.com/css2?family=Murecho:wght@400;700&display=swap"
+	rel="stylesheet"
+	media="print"
+	onload="this.media='all'"
+/>
+<noscript>
+	<link href="https://fonts.googleapis.com/css2?family=Murecho:wght@400;700&display=swap" rel="stylesheet" />
+</noscript>
 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
