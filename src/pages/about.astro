@@ -1,6 +1,11 @@
 ---
 import AboutHeroImage from '../assets/profile.jpg';
 import Layout from '../layouts/BlogPost.astro';
+
+const breadcrumbItems = [
+	{ label: 'Home', href: '/' },
+	{ label: 'About' },
+];
 ---
 
 <Layout
@@ -8,6 +13,7 @@ import Layout from '../layouts/BlogPost.astro';
 	description="about blog.itxryx.com"
 	pubDate={new Date('Jan 01 2026')}
 	heroImage={AboutHeroImage}
+	breadcrumbItems={breadcrumbItems}
 >
 	<p>
 	Hi!<br />
