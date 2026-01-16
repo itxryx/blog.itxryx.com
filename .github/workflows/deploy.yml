@@ -45,7 +45,9 @@ jobs:
             --delete \
             --cache-control "max-age=31536000,public" \
             --exclude "index.html" \
-            --exclude "*.json"
+            --exclude "*.json" \
+            --include "*/index.html" \
+            --include "*/*/index.html"
 
           # index.html: キャッシュ無効
           aws s3 cp dist/index.html s3://${{ secrets.S3_BUCKET_NAME }}/index.html \
