@@ -9,11 +9,29 @@ import Header from '../components/Header.astro';
 type Props = CollectionEntry<'blog'>['data'];
 
 const { title, description, publishedAt, updatedAt, heroImage, ogImage } = Astro.props;
+
+const jsonLd = {
+	'@context': 'https://schema.org',
+	'@type': 'BlogPosting',
+	headline: title,
+	description: description,
+	...(publishedAt && { datePublished: publishedAt.toISOString() }),
+	...(updatedAt && { dateModified: updatedAt.toISOString() }),
+	author: {
+		'@type': 'Person',
+		name: 'itxryx',
+	},
+	publisher: {
+		'@type': 'Organization',
+		name: 'blog.itxryx.com',
+	},
+};
 ---
 
 <html lang="ja">
 	<head>
 		<BaseHead title={title} description={description} type="article" {...(ogImage && { image: ogImage })} />
+		<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 		<style>
 			main {
 				width: calc(100% - 2em);
