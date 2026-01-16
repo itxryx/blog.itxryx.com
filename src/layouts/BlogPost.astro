@@ -6,9 +6,12 @@ import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 
-type Props = CollectionEntry<'blog'>['data'];
+type Props = CollectionEntry<'blog'>['data'] & {
+	prevPost?: CollectionEntry<'blog'> | null;
+	nextPost?: CollectionEntry<'blog'> | null;
+};
 
-const { title, description, publishedAt, updatedAt, heroImage, ogImage } = Astro.props;
+const { title, description, publishedAt, updatedAt, heroImage, ogImage, prevPost, nextPost } = Astro.props;
 
 const jsonLd = {
 	'@context': 'https://schema.org',
@@ -73,6 +76,43 @@ const jsonLd = {
 			.last-updated-on {
 				font-style: italic;
 			}
+			.post-navigation {
+				width: 720px;
+				max-width: calc(100% - 2em);
+				margin: 3rem auto 2rem;
+				padding: 2rem 1em;
+				display: flex;
+				justify-content: space-between;
+				gap: 2rem;
+				border-top: 1px solid var(--border-color);
+			}
+			.nav-previous,
+			.nav-next {
+				flex: 1;
+			}
+			.nav-previous a,
+			.nav-next a {
+				display: flex;
+				flex-direction: column;
+				gap: 0.5rem;
+				text-decoration: none;
+			}
+			.nav-next {
+				text-align: right;
+			}
+			.nav-label {
+				font-size: 0.875rem;
+				color: var(--text-secondary);
+			}
+			.nav-title {
+				font-size: 1rem;
+				color: var(--accent);
+				font-weight: bold;
+			}
+			.nav-previous a:hover .nav-title,
+			.nav-next a:hover .nav-title {
+				color: var(--accent-hover);
+			}
 		</style>
 	</head>
 
@@ -104,6 +144,26 @@ const jsonLd = {
 					</div>
 					<slot />
 				</div>
+				{(prevPost || nextPost) && (
+					<nav class="post-navigation">
+						{prevPost && (
+							<div class="nav-previous">
+								<a href={`/blog/${prevPost.id}/`}>
+									<span class="nav-label">← 前の記事</span>
+									<span class="nav-title">{prevPost.data.title}</span>
+								</a>
+							</div>
+						)}
+						{nextPost && (
+							<div class="nav-next">
+								<a href={`/blog/${nextPost.id}/`}>
+									<span class="nav-label">次の記事 →</span>
+									<span class="nav-title">{nextPost.data.title}</span>
+								</a>
+							</div>
+						)}
+					</nav>
+				)}
 			</article>
 		</main>
 		<Footer />
