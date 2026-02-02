@@ -117,10 +117,6 @@
 		@apply mb-2 leading-relaxed;
 	}
 
-	li:last-child {
-		@apply mb-0;
-	}
-
 	ul ul,
 	ol ol,
 	ul ol,
