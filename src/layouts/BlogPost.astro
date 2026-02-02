@@ -43,105 +43,20 @@ const breadcrumbItems = customBreadcrumbItems || [
 	<head>
 		<BaseHead title={title} description={description} type="article" {...(ogImage && { image: ogImage })} />
 		<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-		<style>
-			main {
-				width: calc(100% - 2em);
-				max-width: 100%;
-				margin: 0;
-			}
-			article > :global(.breadcrumb) {
-				width: 720px;
-				max-width: calc(100% - 2em);
-				margin: 0 auto;
-				padding: 1rem 1em 0;
-			}
-			.hero-image {
-				width: 100%;
-			}
-			.hero-image img {
-				display: block;
-				margin: 0 auto;
-				border-radius: 12px;
-				box-shadow: var(--box-shadow);
-				max-height: 30vh;
-				width: auto;
-			}
-			.prose {
-				width: 720px;
-				max-width: calc(100% - 2em);
-				margin: auto;
-				margin-bottom: 2rem;
-				padding: 1em;
-				color: var(--text-primary);
-			}
-			.title {
-				margin-bottom: 1em;
-				padding: 1em 0;
-				text-align: center;
-				line-height: 1;
-			}
-			.title h1 {
-				margin: 0 0 1.5rem 0;
-			}
-			.date {
-				margin-bottom: 0.5em;
-				color: var(--text-secondary);
-			}
-			.last-updated-on {
-				font-style: italic;
-			}
-			.post-navigation {
-				width: 720px;
-				max-width: calc(100% - 2em);
-				margin: 3rem auto 2rem;
-				padding: 2rem 1em;
-				display: flex;
-				justify-content: space-between;
-				gap: 2rem;
-				border-top: 1px solid var(--border-color);
-			}
-			.nav-previous,
-			.nav-next {
-				flex: 1;
-			}
-			.nav-previous a,
-			.nav-next a {
-				display: flex;
-				flex-direction: column;
-				gap: 0.5rem;
-				text-decoration: none;
-			}
-			.nav-next {
-				text-align: right;
-			}
-			.nav-label {
-				font-size: 0.875rem;
-				color: var(--text-secondary);
-			}
-			.nav-title {
-				font-size: 1rem;
-				color: var(--accent);
-				font-weight: bold;
-			}
-			.nav-previous a:hover .nav-title,
-			.nav-next a:hover .nav-title {
-				color: var(--accent-hover);
-			}
-		</style>
 	</head>
 
 	<body>
 		<Header />
-		<main>
+		<main class="w-full max-w-full m-0">
 			<article>
 				<Breadcrumb items={breadcrumbItems} />
-				<div class="hero-image">
-					{heroImage && <Image width={1020} height={510} src={heroImage} alt={title} />}
+				<div class="w-full">
+					{heroImage && <Image class="block mx-auto rounded-xl shadow-card max-h-[30vh] w-auto" width={1020} height={510} src={heroImage} alt={title} />}
 				</div>
-				<div class="prose">
-					<div class="title">
-					<h1>{title}</h1>
-						<div class="date">
+				<div class="content-width mb-8 p-4">
+					<div class="mb-4 py-4 text-center leading-tight">
+						<h1 class="m-0 mb-6">{title}</h1>
+						<div class="mb-2 text-text-secondary">
 							{
 								publishedAt && (
 									<p> published at: <FormattedDate date={publishedAt} /></p>
@@ -149,7 +64,7 @@ const breadcrumbItems = customBreadcrumbItems || [
 							}
 							{
 								updatedAt && (
-									<div class="last-updated-on">
+									<div class="italic">
 										<p>last updated on: <FormattedDate date={updatedAt} /></p>
 									</div>
 								)
@@ -160,20 +75,20 @@ const breadcrumbItems = customBreadcrumbItems || [
 					<slot />
 				</div>
 				{(prevPost || nextPost) && (
-					<nav class="post-navigation">
+					<nav class="content-width my-12 py-8 px-4 flex justify-between gap-8 border-t border-border">
 						{prevPost && (
-							<div class="nav-previous">
-								<a href={`/blog/${prevPost.id}/`}>
-									<span class="nav-label">← 前の記事</span>
-									<span class="nav-title">{prevPost.data.title}</span>
+							<div class="flex-1 group">
+								<a href={`/blog/${prevPost.id}/`} class="flex flex-col gap-2 no-underline">
+									<span class="text-sm text-text-secondary">← 前の記事</span>
+									<span class="text-base text-accent font-bold group-hover:text-accent-hover">{prevPost.data.title}</span>
 								</a>
 							</div>
 						)}
 						{nextPost && (
-							<div class="nav-next">
-								<a href={`/blog/${nextPost.id}/`}>
-									<span class="nav-label">次の記事 →</span>
-									<span class="nav-title">{nextPost.data.title}</span>
+							<div class="flex-1 text-right group">
+								<a href={`/blog/${nextPost.id}/`} class="flex flex-col gap-2 no-underline">
+									<span class="text-sm text-text-secondary">次の記事 →</span>
+									<span class="text-base text-accent font-bold group-hover:text-accent-hover">{nextPost.data.title}</span>
 								</a>
 							</div>
 						)}

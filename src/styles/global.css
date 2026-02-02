@@ -1,291 +1,212 @@
 @import "tailwindcss";
 
 /* ==========================================
-   CSS変数定義
+   テーマ定義（Tailwind CSS v4）
    ========================================== */
-:root {
+@theme {
 	/* アクセントカラー */
-	--accent: #D9A441;
-	--accent-hover: #E3B55C;
-	--accent-active: #B88A2E;
-	--accent-muted: #BFA76A;
+	--color-accent: #D9A441;
+	--color-accent-hover: #E3B55C;
+	--color-accent-active: #B88A2E;
+	--color-accent-muted: #BFA76A;
 
 	/* 状態カラー */
 	--color-warning: #C9A24D;
 	--color-error: #C25C5C;
 
 	/* 背景とテキスト */
-	--bg-base: #333333;
-	--text-primary: #DDDDDD;
-	--text-secondary: #AAAAAA;
-	--bg-card: #2A2A2A;
-	--border-color: #4A4A4A;
+	--color-bg-base: #333333;
+	--color-text-primary: #DDDDDD;
+	--color-text-secondary: #AAAAAA;
+	--color-bg-card: #2A2A2A;
+	--color-border: #4A4A4A;
 
 	/* シャドウ */
-	--box-shadow:
-		0 2px 6px rgba(0, 0, 0, 40%), 0 8px 24px rgba(0, 0, 0, 30%), 0 16px 32px
-		rgba(0, 0, 0, 30%);
+	--shadow-card: 0 2px 6px rgba(0, 0, 0, 40%), 0 8px 24px rgba(0, 0, 0, 30%), 0 16px 32px rgba(0, 0, 0, 30%);
+
+	/* フォント */
+	--font-display: "Murecho", sans-serif;
 }
 
 /* ==========================================
-   基本レイアウト
+   ベーススタイル
    ========================================== */
-body {
-	margin: 0;
-	padding: 0;
-	background: var(--bg-base);
-	word-wrap: break-word;
-	overflow-wrap: break-word;
-	color: var(--text-primary);
-	font-size: 62.5%;
-	line-height: 1.7;
-	font-family: sans-serif;
-	text-align: left;
-	display: flex;
-	flex-direction: column;
-}
+@layer base {
+	body {
+		@apply m-0 p-0 bg-bg-base text-text-primary break-words leading-relaxed font-sans flex flex-col;
+	}
 
-main {
-	width: 720px;
-	max-width: calc(100% - 2rem);
-	min-height: 70vh;
-	margin: auto;
-	padding: 3rem 1rem;
+	main {
+		@apply max-w-3xl mx-auto min-h-[70vh] py-12 px-4;
+	}
+
+	/* タイポグラフィ */
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		@apply my-6 text-text-primary leading-tight;
+	}
+
+	h1 {
+		@apply text-3xl;
+	}
+
+	h2 {
+		@apply text-2xl;
+	}
+
+	h3 {
+		@apply text-xl;
+	}
+
+	h4 {
+		@apply text-lg;
+	}
+
+	h5 {
+		@apply text-base;
+	}
+
+	p {
+		@apply text-base;
+	}
+
+	/* リンク */
+	a {
+		@apply text-accent-active;
+	}
+
+	a:hover {
+		@apply text-accent-hover;
+	}
+
+	a:visited {
+		@apply text-accent-active;
+	}
+
+	/* フォーカス状態 */
+	a:focus-visible {
+		@apply outline-2 outline-accent outline-offset-2 rounded-sm;
+	}
+
+	button:focus-visible,
+	input:focus-visible,
+	textarea:focus-visible,
+	select:focus-visible {
+		@apply outline-2 outline-accent outline-offset-2;
+	}
+
+	/* リスト */
+	ul,
+	ol {
+		@apply my-4 pl-8;
+	}
+
+	ul {
+		@apply list-disc list-outside;
+	}
+
+	ol {
+		@apply list-decimal list-outside;
+	}
+
+	li {
+		@apply mb-2 leading-relaxed;
+	}
+
+	li:last-child {
+		@apply mb-0;
+	}
+
+	ul ul,
+	ol ol,
+	ul ol,
+	ol ul {
+		@apply my-2;
+	}
+
+	/* 水平線 */
+	hr {
+		@apply border-none border-t border-border;
+	}
+
+	/* blockquote */
+	blockquote {
+		@apply border-l-4 border-accent bg-bg-card px-6 py-4 my-6 rounded;
+	}
+
+	blockquote p {
+		@apply my-2;
+	}
+
+	blockquote p:first-child {
+		@apply mt-0;
+	}
+
+	blockquote p:last-child {
+		@apply mb-0;
+	}
+
+	/* コードブロック */
+	pre {
+		@apply my-6 p-5 rounded-lg overflow-x-auto;
+		background-color: #1e1e1e !important;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+	}
+
+	pre code {
+		@apply font-mono text-sm leading-relaxed p-0 bg-transparent;
+		color: #e1e4e8;
+	}
+
+	pre code .line {
+		@apply block min-h-[1rem];
+	}
+
+	/* インラインコード */
+	code {
+		@apply font-mono text-sm bg-bg-card rounded text-accent-muted px-1.5 py-0.5;
+	}
 }
 
 /* ==========================================
-   タイポグラフィ
+   コンポーネント
    ========================================== */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	margin: 1.5rem 0;
-	color: var(--text-primary);
-	line-height: 1;
-}
+@layer components {
+	.content-width {
+		@apply max-w-3xl mx-auto;
+	}
 
-h1 {
-	font-size: 2rem;
-}
+	/* 脚注（Markdown自動生成） */
+	.footnotes {
+		@apply mt-12 pt-8 border-t border-border text-sm text-text-secondary;
+	}
 
-h2 {
-	font-size: 1.75rem;
-}
+	.footnotes ol {
+		@apply pl-8 my-4;
+	}
 
-h3 {
-	font-size: 1.5rem;
-}
+	.footnotes li {
+		@apply mb-3 leading-relaxed;
+	}
 
-h4 {
-	font-size: 1.25rem;
-}
+	.footnotes li p {
+		@apply inline text-sm;
+	}
 
-h5 {
-	font-size: 1rem;
-}
-
-p {
-	font-size: 1rem;
+	.footnotes .data-footnote-backref {
+		@apply ml-1 no-underline font-bold hover:underline;
+	}
 }
 
 /* ==========================================
-   リンク
+   ユーティリティ
    ========================================== */
-a {
-	color: var(--accent);
-	font-size: 1rem;
-}
-
-a:link {
-	color: var(--accent-active);
-}
-
-a:visited {
-	color: var(--accent-active);
-}
-
-a:hover {
-	color: var(--accent-hover);
-}
-
-a:active {
-	color: var(--accent-active);
-}
-
-/* ==========================================
-   フォーカス状態
-   ========================================== */
-a:focus-visible {
-	outline: 2px solid var(--accent);
-	outline-offset: 2px;
-	border-radius: 2px;
-}
-
-button:focus-visible,
-input:focus-visible,
-textarea:focus-visible,
-select:focus-visible {
-	outline: 2px solid var(--accent);
-	outline-offset: 2px;
-}
-
-/* ==========================================
-   リスト
-   ========================================== */
-ul,
-ol {
-	margin: 1rem 0;
-	padding-left: 2rem;
-	font-size: 1rem;
-}
-
-ul {
-	list-style-type: disc;
-	list-style-position: outside;
-}
-
-ol {
-	list-style-type: decimal;
-	list-style-position: outside;
-}
-
-li {
-	margin-bottom: 0.5rem;
-	line-height: 1.7;
-	display: list-item;
-}
-
-li:last-child {
-	margin-bottom: 0;
-}
-
-ul ul,
-ol ol,
-ul ol,
-ol ul {
-	margin: 0.5rem 0;
-}
-
-/* ==========================================
-   水平線
-   ========================================== */
-hr {
-	border: none;
-	border-top: 1px solid var(--border-color);
-}
-
-/* ==========================================
-   引用（blockquote）
-   ========================================== */
-blockquote {
-	border-left: 4px solid var(--accent);
-	background: var(--bg-card);
-	padding: 1rem 1.5rem;
-	margin: 1.5rem 0;
-	border-radius: 4px;
-	color: var(--text-primary);
-}
-
-blockquote p {
-	margin: 0.5rem 0;
-	font-size: 1rem;
-}
-
-blockquote p:first-child {
-	margin-top: 0;
-}
-
-blockquote p:last-child {
-	margin-bottom: 0;
-}
-
-/* ==========================================
-   コードブロック
-   ========================================== */
-pre {
-	margin: 1.5rem 0;
-	padding: 1.25rem;
-	border-radius: 8px;
-	overflow-x: auto;
-	background-color: #1e1e1e !important;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-}
-
-pre code {
-	font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-	font-size: 0.9rem;
-	line-height: 1.6;
-	color: #e1e4e8;
-	background: none;
-	padding: 0;
-}
-
-pre code .line {
-	display: block;
-	min-height: 1.6rem;
-}
-
-/* インラインコード */
-code {
-	font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-	font-size: 0.9rem;
-	background: var(--bg-card);
-	padding: 0.2rem 0.4rem;
-	border-radius: 3px;
-	color: var(--accent-muted);
-}
-
-/* ==========================================
-   脚注
-   ========================================== */
-.footnotes {
-	margin-top: 3rem;
-	padding-top: 2rem;
-	border-top: 1px solid var(--border-color);
-	font-size: 0.9rem;
-	color: var(--text-secondary);
-}
-
-.footnotes ol {
-	padding-left: 2rem;
-	margin: 1rem 0;
-}
-
-.footnotes li {
-	margin-bottom: 0.75rem;
-	line-height: 1.6;
-}
-
-.footnotes li p {
-	display: inline;
-	font-size: 0.9rem;
-}
-
-.footnotes .data-footnote-backref {
-	margin-left: 0.25rem;
-	text-decoration: none;
-	font-weight: bold;
-}
-
-.footnotes .data-footnote-backref:hover {
-	text-decoration: underline;
-}
-
-/* ==========================================
-   ユーティリティクラス
-   ========================================== */
-.sr-only,
-.visually-hidden {
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	margin: -1px;
-	padding: 0;
-	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
-	white-space: nowrap;
-	border: 0;
+@layer utilities {
+	.visually-hidden {
+		@apply sr-only;
+	}
 }

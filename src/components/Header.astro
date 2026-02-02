@@ -3,40 +3,13 @@ import { SITE_TITLE } from '../consts';
 import HeaderLink from './HeaderLink.astro';
 ---
 
-<header>
-	<nav aria-label="メインナビゲーション">
-		<h2><a href="/">{SITE_TITLE}</a></h2>
+<header class="p-4">
+	<nav aria-label="メインナビゲーション" class="flex items-center justify-between">
+		<h2 class="m-0">
+			<a href="/" class="flex font-display text-2xl font-bold text-text-primary no-underline">{SITE_TITLE}</a>
+		</h2>
 		<div class="internal-links">
-		    <HeaderLink href="/about">About</HeaderLink>
+		    <HeaderLink href="/about" class="px-2 font-display text-text-primary">About</HeaderLink>
 		</div>
 	</nav>
 </header>
-<style>
-	header {
-		padding: 1rem 1rem;
-	}
-	nav {
-    	display: flex;
-    	align-items: center;
-    	justify-content: space-between;
-    	flex-direction: row;
-    	flex-wrap: nowrap;
-	}
-	nav a {
-		padding: 0 0.5rem;
-		font-family: "Murecho", sans-serif;
-		color: var(--text-primary);
-		text-decoration: none;
-	}
-	h2 {
-		margin: 0;
-	}
-	h2 a {
-		display: flex;
-		font-family: "Murecho", sans-serif;
-		font-size: 2rem;
-		font-weight: bold;
-		color: var(--text-primary);
-		text-decoration: none;
-	}
-</style>
