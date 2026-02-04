@@ -159,7 +159,7 @@
 	}
 
 	pre code .line {
-		@apply block min-h-[1rem];
+		@apply min-h-[1rem];
 	}
 
 	/* インラインコード */
