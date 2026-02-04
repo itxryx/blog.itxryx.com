@@ -10,7 +10,7 @@ tags:
 heroImage:
 ogImage:
 publishedAt: 2026-02-05
-updatedAt:
+updatedAt: 2026-02-05
 ---
 
 git submoduleを使うプロジェクトに参加しているが、`git submodule update --init --recursive`がなぜか失敗する。
@@ -20,9 +20,9 @@ git submoduleを使うプロジェクトに参加しているが、`git submodul
 ```
 [core]
 ...
-[submodule "path/to/submodule"]↲
--active = true↲
--url = git@github.com:organization/repos.git↲
+[submodule "path/to/submodule"]
+-active = true
+-url = git@github.com:organization/repos.git
 ```
 
 `git config`を叩いても反映できる。
